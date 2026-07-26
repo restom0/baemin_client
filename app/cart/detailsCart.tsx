@@ -1,7 +1,4 @@
-import { Button } from "antd";
-import { Butterfly_Kids } from "next/font/google";
 import Image from "next/image";
-import React from "react";
 
 export default function DetailsCart({ Details }: {
     Details: any[]
@@ -10,7 +7,7 @@ export default function DetailsCart({ Details }: {
     return (
         <>
         {Details.map((items, index) => (
-            <div className="w-full flex flex-col  bg-white rounded-md ">
+            <div key={`${items.name}-${index}`} className="w-full flex flex-col  bg-white rounded-md ">
                 
                     <div className=" flex flex-row my-7 ml-8 items-center gap-3">
                         <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:ring-offset-gray-800 " />

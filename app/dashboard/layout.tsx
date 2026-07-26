@@ -1,5 +1,3 @@
-import FooterNav from "@/components/footerNav";
-
 export default function DashboardLayout({
     children,
   }: Readonly<{

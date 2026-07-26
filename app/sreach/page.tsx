@@ -1,4 +1,3 @@
-import { ShoppingCartOutlined } from '@ant-design/icons';
 import React from 'react';
 import TypeSelector from './type';
 import AreaSelector from './area';

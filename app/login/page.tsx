@@ -7,18 +7,37 @@ import {
   GoogleOutlined,
 } from "@ant-design/icons";
 import { Input } from "antd";
-import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
-const url = "http://localhost:8080/";
 const Page: React.FC = () => {
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const router = useRouter();
   const [email, setEmail] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const handleLogin = async () => {
-    login({ email, password }).then((result: any) => {
-      localStorage.setItem("token", result);
-    });
+    setError("");
+    if (!email.trim() || !password) {
+      setError("Vui long nhap email va mat khau.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await login({ email: email.trim(), password });
+      if (typeof result === "string" && result !== "Invalid email or password") {
+        localStorage.setItem("token", result);
+        router.push("/dashboard");
+        return;
+      }
+
+      setError("Thong tin dang nhap khong dung.");
+    } catch {
+      setError("Khong the dang nhap. Vui long thu lai.");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -30,6 +49,7 @@ const Page: React.FC = () => {
           <Input
             placeholder="Email/Số điện thoại/Tên đăng nhập"
             className="h-[40px]"
+            data-cy="login-email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -37,18 +57,26 @@ const Page: React.FC = () => {
           <Input.Password
             placeholder="Mật khẩu"
             className="h-[40px]"
+            data-cy="login-password"
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {error && (
+          <div className="rounded border border-red-200 bg-red-50 p-2 text-sm text-red-700" role="alert">
+            {error}
+          </div>
+        )}
         <div className="flex flex-col w-full mt-3">
           <button
             className="w-full h-[40px] uppercase text-white bg-beamin rounded-lg"
+            data-cy="login-submit"
+            disabled={loading}
             onClick={handleLogin}
           >
-            Đăng Nhập
+            {loading ? "Dang nhap..." : "Đăng Nhập"}
           </button>
           <div className="flex flex-row justify-between items-center w-full text-sm text-beamin">
             <span className="cursor-pointer">Quên mật khẩu </span>

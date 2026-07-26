@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import HeaderNav from "@/components/headerNav";
-import FooterNav from "@/components/footerNav";
-
-const inter = Inter({ subsets: ["latin"] });
+import { AppPreferencesProvider } from "@/components/appPreferences";
 
 export const metadata: Metadata = {
   title: "Baemin",
@@ -18,17 +15,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      
-      <body className="w-full h-fit">
-      <HeaderNav/>
-      <AntdRegistry>{children}
-
-
-      </AntdRegistry>
-       
+    <html lang="vi">
+      <body className="w-full min-h-screen font-sans">
+        <AntdRegistry>
+          <AppPreferencesProvider>
+            <HeaderNav />
+            <main className="pt-20">{children}</main>
+          </AppPreferencesProvider>
+        </AntdRegistry>
       </body>
-      
     </html>
   );
 }

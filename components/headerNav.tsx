@@ -1,23 +1,24 @@
-
 'use client'
 import { Button, Select } from "antd";
 import { SearchProps } from "antd/es/input";
 import Search from "antd/es/input/Search";
-import { useState } from "react";
-import { HomeOutlined, SearchOutlined, SolutionOutlined,ShoppingCartOutlined } from '@ant-design/icons';
+import { BulbOutlined, GlobalOutlined, HomeOutlined, SolutionOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useRouter } from "next/navigation";
+import { useAppPreferences } from "./appPreferences";
+import { Locale, locales } from "./i18n";
 
 export default function HeaderNav() {
     const router = useRouter();
-    const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
-        router.push('/sreach')
-
+    const { language, setLanguage, setTheme, t, theme } = useAppPreferences();
+    const onSearch: SearchProps['onSearch'] = (value) => {
+        const query = value.trim();
+        router.push(query ? `/search?q=${encodeURIComponent(query)}` : '/search')
     };
     const navigation =()=>{
         router.push('/dashboard')
     }
     return (
-        <div className="w-full h-fix bg-white flex flex-row fixed  py-3 gap-4 justify-items-center	justify-center z-50	">
+        <div className="w-full bg-[var(--surface)] text-[var(--foreground)] flex flex-row fixed py-3 gap-4 justify-items-center justify-center z-50 shadow-sm">
             <div onClick={navigation} className="flex-none w-fit h-full ml-10 cursor-pointer ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="131" height="50" viewBox="0 0 131 27">
                     <g fill="#3AC5C9" fillRule="evenodd">
@@ -25,19 +26,40 @@ export default function HeaderNav() {
                     </g>
                 </svg>
             </div>
-            <div className="grow  flex flex-row items-center gap-9	 ">
-                <Select className="ml-10 w-28 	" ></Select>
+            <div className="grow flex flex-row items-center gap-4">
+                <Select
+                    aria-label={t.language}
+                    className="ml-10 w-24"
+                    data-cy="language-switcher"
+                    options={locales}
+                    value={language}
+                    onChange={(value: Locale) => setLanguage(value)}
+                    suffixIcon={<GlobalOutlined />}
+                />
+                <Select
+                    aria-label={t.theme}
+                    className="w-24"
+                    data-cy="theme-switcher"
+                    options={[
+                        { label: t.light, value: 'light' },
+                        { label: t.dark, value: 'dark' },
+                    ]}
+                    value={theme}
+                    onChange={(value: 'light' | 'dark') => setTheme(value)}
+                    suffixIcon={<BulbOutlined />}
+                />
                 <Search
                 className="w-1/3"
-                    placeholder="input search text"
-                    enterButton="Tìm kiếm"
+                    data-cy="site-search"
+                    placeholder={t.searchPlaceholder}
+                    enterButton={t.searchButton}
                     size="large"
                     onSearch={onSearch}
                 />
             </div>
             <div className="flex-none w-1/4  flex flex-row items-center  py-2" >
-            <Button href="/dashboard" className="font-normal  leading-5 btn-home	" style={{ fontSize: '18px',height:'100%' ,color:'rgb(128, 128, 137)' }}  type="text" icon={<HomeOutlined  />}>Trang Chủ</Button>
-            <Button href="/login" className="font-normal  leading-5 btn-home	" style={{ fontSize: '18px',height:'100%' ,color:'rgb(128, 128, 137)' }}  type="text" icon={<SolutionOutlined />}>Tài Khoản</Button>
+            <Button href="/dashboard" className="font-normal  leading-5 btn-home	" style={{ fontSize: '18px',height:'100%' ,color:'var(--muted-foreground)' }}  type="text" icon={<HomeOutlined  />}>{t.home}</Button>
+            <Button href="/login" className="font-normal  leading-5 btn-home	" style={{ fontSize: '18px',height:'100%' ,color:'var(--muted-foreground)' }}  type="text" icon={<SolutionOutlined />}>{t.account}</Button>
             <Button href="/cart" type="text" style={{fontSize: '20px', width:'40px', height:'100%' ,color:'#3AC5C9' }} icon={<ShoppingCartOutlined />} >
             </Button>
             <span className="text-xs bg-red-600 relative rounded w-full text-white  bottom-3 right-4 text-center" style={{width:'15px' ,borderRadius:'50px'}}  >1</span>

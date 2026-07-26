@@ -1,0 +1,96 @@
+$brand: #3ac5c9;
+$brand-strong: #15969c;
+$brand-soft: #e8fbfc;
+$danger: #ef4444;
+$success: #16a34a;
+$warning: #f59e0b;
+
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+$radius-pill: 999px;
+
+$shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.08);
+$shadow-card: 0 8px 24px rgba(15, 23, 42, 0.08);
+$shadow-float: 0 18px 48px rgba(15, 23, 42, 0.14);
+
+@mixin focus-ring {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+:root {
+  color-scheme: light;
+
+  --color-brand: #{$brand};
+  --color-brand-strong: #{$brand-strong};
+  --color-brand-soft: #{$brand-soft};
+  --color-danger: #{$danger};
+  --color-success: #{$success};
+  --color-warning: #{$warning};
+
+  --color-brand-rgb: 58 197 201;
+  --color-brand-soft-rgb: 232 251 252;
+  --color-background-rgb: 242 242 242;
+  --color-foreground-rgb: 37 37 37;
+  --color-surface-rgb: 255 255 255;
+  --color-surface-soft-rgb: 248 250 252;
+  --color-border-rgb: 229 231 235;
+  --color-muted-rgb: 243 244 246;
+  --color-muted-foreground-rgb: 100 116 139;
+
+  --color-background: #f2f2f2;
+  --color-foreground: #252525;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f8fafc;
+  --color-muted: #f3f4f6;
+  --color-muted-foreground: #64748b;
+  --color-border: #e5e7eb;
+  --color-ring: rgba(58, 197, 201, 0.45);
+
+  --radius-sm: #{$radius-sm};
+  --radius-md: #{$radius-md};
+  --radius-lg: #{$radius-lg};
+  --radius-xl: #{$radius-xl};
+  --radius-pill: #{$radius-pill};
+
+  --shadow-sm: #{$shadow-sm};
+  --shadow-card: #{$shadow-card};
+  --shadow-float: #{$shadow-float};
+
+  --layout-page-max: 1200px;
+  --layout-content-max: 960px;
+  --transition-ui: 160ms ease;
+
+  --background: var(--color-background);
+  --foreground: var(--color-foreground);
+  --muted-foreground: var(--color-muted-foreground);
+  --surface: var(--color-surface);
+  --surface-soft: var(--color-surface-soft);
+  --border: var(--color-border);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-background-rgb: 21 23 24;
+  --color-foreground-rgb: 245 247 247;
+  --color-surface-rgb: 32 36 38;
+  --color-surface-soft-rgb: 42 48 50;
+  --color-border-rgb: 59 69 72;
+  --color-muted-rgb: 37 43 45;
+  --color-muted-foreground-rgb: 199 208 208;
+
+  --color-background: #151718;
+  --color-foreground: #f5f7f7;
+  --color-surface: #202426;
+  --color-surface-soft: #2a3032;
+  --color-muted: #252b2d;
+  --color-muted-foreground: #c7d0d0;
+  --color-border: #3b4548;
+  --color-ring: rgba(58, 197, 201, 0.55);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-float: 0 18px 48px rgba(0, 0, 0, 0.34);
+}

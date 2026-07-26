@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Design System
+
+The client has a SCSS-backed Tailwind design system in `app/styles`.
+
+- `app/globals.scss` is the single global style entrypoint imported by `app/layout.tsx`.
+- `app/styles/_tokens.scss` defines brand colors, theme variables, spacing/radius/shadow tokens, and light/dark theme CSS variables.
+- `app/styles/_base.scss` contains shared element defaults and Ant Design alignment.
+- `app/styles/_components.scss` exposes reusable `ds-*` component classes such as `ds-page`, `ds-container`, `ds-panel`, `ds-card`, `ds-button`, `ds-input`, `ds-badge`, `ds-table`, and `ds-bottom-bar`.
+- `app/styles/_utilities.scss` contains shared utility helpers such as `ds-scrollbar-none`, `ds-scroll-x`, `ds-surface`, and `ds-focus-ring`.
+
+Prefer composing new shared UI with Tailwind utilities first, then promote repeated patterns into the `ds-*` classes.
+
 ## Getting Started
 
 First, run the development server:

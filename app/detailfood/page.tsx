@@ -1,11 +1,8 @@
 'use client'
-import HeaderNav from "@/components/headerNav";
-import ScrollBar from "@/components/scrollBar";
-import ScrollFood from "@/components/scrollFood";
-import { ClockCircleOutlined, ClockCircleTwoTone, DollarOutlined, DollarTwoTone, DoubleRightOutlined, LikeFilled, PlusOutlined, SearchOutlined, StarFilled, StarOutlined } from "@ant-design/icons";
+import { ClockCircleTwoTone, DollarTwoTone, DoubleRightOutlined, LikeFilled, PlusOutlined, SearchOutlined, StarFilled, StarOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
 

@@ -13,25 +13,44 @@ const Page: React.FC = () => {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [reTypePassword, setReTypePassword] = useState("");
   const handleNavigate = () => {
     router.push("/login");
   };
   const handleRegister = async () => {
-    if (password !== reTypePassword) {
-      alert("Mật khẩu không khớp");
+    setError("");
+    if (!first_name || !last_name || !username || !phone || !email || !password) {
+      setError("Vui long nhap day du thong tin.");
       return;
     }
-    register({
-      fullname: first_name + last_name,
-      username,
-      phone,
-      email,
-      password,
-    }).then((result: any) => {
+    if (password !== reTypePassword) {
+      setError("Mat khau khong khop.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await register({
+        full_name: `${last_name} ${first_name}`.trim(),
+        username: username.trim(),
+        phone: phone.trim(),
+        email: email.trim(),
+        password,
+      });
+      if (typeof result === "string") {
+        setError(result);
+        return;
+      }
+
       handleNavigate();
-    });
+    } catch {
+      setError("Khong the dang ki. Vui long thu lai.");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -43,11 +62,13 @@ const Page: React.FC = () => {
           <Input
             placeholder="Họ "
             className="h-[40px]"
+            data-cy="register-last-name"
             onChange={(e) => setLast_Name(e.target.value)}
           />
           <Input
             placeholder="Tên"
             className="h-[40px]"
+            data-cy="register-first-name"
             onChange={(e) => setFirst_Name(e.target.value)}
           />
         </div>
@@ -55,6 +76,7 @@ const Page: React.FC = () => {
           <Input
             placeholder="Tên đăng nhập"
             className="h-[40px]"
+            data-cy="register-username"
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
@@ -62,6 +84,7 @@ const Page: React.FC = () => {
           <Input
             placeholder="Số điện thoại"
             className="h-[40px]"
+            data-cy="register-phone"
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
@@ -69,6 +92,7 @@ const Page: React.FC = () => {
           <Input
             placeholder="Email"
             className="h-[40px]"
+            data-cy="register-email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -76,6 +100,7 @@ const Page: React.FC = () => {
           <Input.Password
             placeholder="Mật khẩu"
             className="h-[40px]"
+            data-cy="register-password"
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
@@ -86,18 +111,26 @@ const Page: React.FC = () => {
           <Input.Password
             placeholder="Nhập lại mật khẩu"
             className="h-[40px]"
+            data-cy="register-confirm-password"
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
             onChange={(e) => setReTypePassword(e.target.value)}
           />
         </div>
+        {error && (
+          <div className="rounded border border-red-200 bg-red-50 p-2 text-sm text-red-700" role="alert">
+            {error}
+          </div>
+        )}
         <div className="flex flex-col w-full">
           <button
             className="w-full h-[40px] uppercase text-white bg-beamin rounded-lg"
+            data-cy="register-submit"
+            disabled={loading}
             onClick={handleRegister}
           >
-            Đăng Ký
+            {loading ? "Dang ki..." : "Đăng Ký"}
           </button>
         </div>
         <div className="flex items-center justify-center gap-1">

@@ -1,6 +1,16 @@
 import axios from "axios";
 
-const url = "http://localhost:8080";
+const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
+const authHeaders = () => {
+  if (typeof window === "undefined") {
+    return {};
+  }
+
+  const token = window.localStorage.getItem("token");
+  return token ? { token: `Bearer ${token}` } : {};
+};
+
 export const fetchCategory = async () => {
   try {
     const response = await fetch(`${url}/category`);
@@ -12,13 +22,7 @@ export const fetchCategory = async () => {
 };
 export const login = async (data: any) => {
   try {
-    const response = await axios.post(`${url}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await axios.post(`${url}/auth/login`, data);
     const result = await response.data;
     return result;
   } catch (error) {
@@ -27,13 +31,7 @@ export const login = async (data: any) => {
 };
 export const register = async (data: any) => {
   try {
-    const response = await axios.post(`${url}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await axios.post(`${url}/auth/register`, data);
     const result = await response.data;
     return result;
   } catch (error) {
@@ -43,7 +41,7 @@ export const register = async (data: any) => {
 export const searchProduct = async (name: string, page: number) => {
   try {
     const response = await axios.get(
-      `${url}/product/search?name=${name}&page=${page}`
+      `${url}/product/search?name=${encodeURIComponent(name)}&page=${page || 1}`
     );
     const result = await response.data;
     return result;
@@ -53,12 +51,8 @@ export const searchProduct = async (name: string, page: number) => {
 };
 export const orderProduct = async (data: any) => {
   try {
-    const response = await axios.post(`${url}/order`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+    const response = await axios.post(`${url}/order/order`, data, {
+      headers: authHeaders(),
     });
     const result = await response.data;
     return result;

@@ -12,8 +12,8 @@ export default function ResultFood({ items }: { items: any[] }) {
     return (
         <>
             <div className='mt-3 flex flex-row flex-wrap gap-3 '>
-                {items.map((item:any)=>(
-                <div onClick={handleNavigate} key={item.id} className='group w-[19%] h-56 bg-white flex flex-col cursor-pointer'>
+                {items.map((item:any, index) => (
+                <div onClick={handleNavigate} key={`${item.id}-${index}`} className='group w-[19%] h-56 bg-white flex flex-col cursor-pointer'>
                     <div className='group-hover:brightness-105 w-full h-[60%] relative'>
                         <Image layout="fill" objectFit="cover" src={item.img} alt={""}></Image>
                     </div>

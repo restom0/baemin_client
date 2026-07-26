@@ -1,0 +1,43 @@
+@use "./tokens" as *;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .ds-scroll-x {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+  }
+
+  .scroll-container,
+  .ds-scrollbar-none {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .ds-surface {
+    background: var(--color-surface);
+    color: var(--color-foreground);
+  }
+
+  .ds-surface-soft {
+    background: var(--color-surface-soft);
+    color: var(--color-foreground);
+  }
+
+  .ds-border {
+    border-color: var(--color-border);
+  }
+
+  .ds-focus-ring {
+    @include focus-ring;
+  }
+}

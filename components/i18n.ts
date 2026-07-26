@@ -1,0 +1,73 @@
+export type Locale = 'fr' | 'ca' | 'es' | 'de' | 'vi' | 'it';
+
+export const locales: { label: string; value: Locale }[] = [
+  { label: 'VI', value: 'vi' },
+  { label: 'FR', value: 'fr' },
+  { label: 'CA', value: 'ca' },
+  { label: 'ES', value: 'es' },
+  { label: 'DE', value: 'de' },
+  { label: 'IT', value: 'it' },
+];
+
+export const dictionary = {
+  vi: {
+    home: 'Trang Chu',
+    account: 'Tai Khoan',
+    searchPlaceholder: 'Tim mon an hoac nha hang',
+    searchButton: 'Tim kiem',
+    language: 'Ngon ngu',
+    theme: 'Giao dien',
+    light: 'Sang',
+    dark: 'Toi',
+  },
+  fr: {
+    home: 'Accueil',
+    account: 'Compte',
+    searchPlaceholder: 'Chercher un plat ou restaurant',
+    searchButton: 'Chercher',
+    language: 'Langue',
+    theme: 'Theme',
+    light: 'Clair',
+    dark: 'Sombre',
+  },
+  ca: {
+    home: 'Inici',
+    account: 'Compte',
+    searchPlaceholder: 'Cerca plat o restaurant',
+    searchButton: 'Cerca',
+    language: 'Idioma',
+    theme: 'Tema',
+    light: 'Clar',
+    dark: 'Fosc',
+  },
+  es: {
+    home: 'Inicio',
+    account: 'Cuenta',
+    searchPlaceholder: 'Buscar comida o restaurante',
+    searchButton: 'Buscar',
+    language: 'Idioma',
+    theme: 'Tema',
+    light: 'Claro',
+    dark: 'Oscuro',
+  },
+  de: {
+    home: 'Start',
+    account: 'Konto',
+    searchPlaceholder: 'Gericht oder Restaurant suchen',
+    searchButton: 'Suchen',
+    language: 'Sprache',
+    theme: 'Design',
+    light: 'Hell',
+    dark: 'Dunkel',
+  },
+  it: {
+    home: 'Home',
+    account: 'Account',
+    searchPlaceholder: 'Cerca cibo o ristorante',
+    searchButton: 'Cerca',
+    language: 'Lingua',
+    theme: 'Tema',
+    light: 'Chiaro',
+    dark: 'Scuro',
+  },
+} satisfies Record<Locale, Record<string, string>>;
