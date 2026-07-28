@@ -1,0 +1,15 @@
+flowchart LR
+    browser["User Browser"] -->|"Renders"| nextApp["Next.js App Router"]
+    nextApp -->|"Wraps app"| preferences["AppPreferencesProvider"]
+    preferences -->|"Stores language/theme"| localStorage["localStorage"]
+    nextApp -->|"Displays"| header["HeaderNav"]
+    header -->|"Search navigation"| searchPage["/search"]
+    nextApp -->|"Pages"| authPages["/login and /register"]
+    nextApp -->|"Pages"| commercePages["/dashboard /cart /checkout /statusorder"]
+    authPages -->|"login/register"| apiClient["apis/fetchApi.tsx"]
+    searchPage -->|"product search"| apiClient
+    commercePages -->|"order create"| apiClient
+    apiClient -->|"HTTP JSON"| apiGateway["NestJS API Gateway"]
+    apiGateway -->|"Auth RPC"| userService["User Service"]
+    apiGateway -->|"Product RPC"| productService["Product Service"]
+    apiGateway -->|"Order RPC"| orderService["Order Service"]
