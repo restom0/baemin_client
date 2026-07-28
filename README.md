@@ -16,7 +16,7 @@ Baemin Client is the Next.js App Router web app for browsing food, searching res
 
 ## Architecture Diagram
 
-Source Mermaid lives in [`docs/architecture.mmd`](docs/architecture.mmd). Use [$figma:figma-generate-diagram](C:\Users\ACER\.codex\plugins\cache\openai-curated-remote\figma\2.0.16\skills\figma-generate-diagram\SKILL.md) to turn it into an editable FigJam diagram.
+Source Mermaid lives in [`docs/architecture.mmd`](docs/architecture.mmd).
 
 ```mermaid
 flowchart LR
@@ -42,7 +42,7 @@ flowchart LR
 - Client icon source: [`docs/icon.svg`](docs/icon.svg).
 - Runtime app icon: [`public/baemin-icon.svg`](public/baemin-icon.svg).
 
-Use [$figma:figma-generate-design](C:\Users\ACER\.codex\plugins\cache\openai-curated-remote\figma\2.0.16\skills\figma-generate-design\SKILL.md) to recreate/refine the thumbnail and icon in Figma from these code-derived SVG bases. The visual cues come from the app code: Baemin brand color `#3AC5C9`, search/navigation header, cart, checkout, order status, multilingual controls, and the SCSS design-system tokens.
+The visual language follows the app code: Baemin brand color `#3AC5C9`, the search/navigation header, cart, checkout, order status, multilingual controls, and the SCSS design-system tokens.
 
 ## Design System
 
@@ -81,8 +81,18 @@ Run Cypress after the app is available on port `3000`:
 yarn test:e2e
 ```
 
-## Figma Workflow
+## Testing
 
-1. For the architecture diagram, open [`docs/architecture.mmd`](docs/architecture.mmd) and send the Mermaid source through [$figma:figma-generate-diagram](C:\Users\ACER\.codex\plugins\cache\openai-curated-remote\figma\2.0.16\skills\figma-generate-diagram\SKILL.md).
-2. For thumbnail/icon design, use [$figma:figma-generate-design](C:\Users\ACER\.codex\plugins\cache\openai-curated-remote\figma\2.0.16\skills\figma-generate-design\SKILL.md) with the running web app or the SVG files in `docs/`.
-3. If replacing icons in Figma, import the SVG source directly instead of redrawing the icon from primitives.
+- Unit and component tests use Jest with Testing Library (`yarn test`, `yarn test:cov`).
+- The Jest config enforces a 100% coverage threshold (statements, branches, functions, lines).
+- API-wrapper integration tests in [`apis/__tests__`](apis/__tests__) exercise `apis/fetchApi.tsx` against a mocked `fetch`.
+- End-to-end flows run through Cypress (`yarn test:e2e`) once the app is serving on port `3000`.
+
+## CI/CD
+
+GitHub Actions workflows live in [`.github/workflows`](.github/workflows) and run on pushes to `master`, pull requests, and manual dispatch:
+
+- `ci.yml` — installs dependencies, lints, type checks, runs tests with coverage (gated at 100%), builds, uploads the coverage report, and runs a Sonar scan when `SONAR_TOKEN` is set. A separate job runs the Cypress E2E suite, and a `master`-only job deploys to Vercel when `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` are configured.
+- `qodana.yml` — runs JetBrains Qodana static analysis and uploads results to GitHub code scanning.
+
+Sonar configuration lives in [`sonar-project.properties`](sonar-project.properties) and Qodana in [`qodana.yaml`](qodana.yaml).
