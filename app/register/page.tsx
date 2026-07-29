@@ -1,4 +1,5 @@
 "use client";
+
 import { register } from "@/apis/fetchApi";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Input } from "antd";
@@ -17,17 +18,19 @@ const Page: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [reTypePassword, setReTypePassword] = useState("");
+
   const handleNavigate = () => {
     router.push("/login");
   };
+
   const handleRegister = async () => {
     setError("");
     if (!first_name || !last_name || !username || !phone || !email || !password) {
-      setError("Vui long nhap day du thong tin.");
+      setError("Vui lòng nhập đầy đủ thông tin.");
       return;
     }
     if (password !== reTypePassword) {
-      setError("Mat khau khong khop.");
+      setError("Mật khẩu không khớp.");
       return;
     }
 
@@ -47,73 +50,107 @@ const Page: React.FC = () => {
 
       handleNavigate();
     } catch {
-      setError("Khong the dang ki. Vui long thu lai.");
+      setError("Không thể đăng kí. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleRegister();
+  };
+
   return (
-    <>
-      <div className="mt-28 w-1/3  bg-white border rounded-2xl flex flex-col p-5 gap-5 pb-8">
-        <div className="flex justify-center items-center w-full text-beamin font-semibold text-[26px]">
-          Đăng Kí
-        </div>
-        <div className="flex flex-row w-full gap-2">
+    <div className="mt-28 flex w-1/3 flex-col gap-5 rounded-2xl border bg-white p-5 pb-8">
+      <h1 className="m-0 flex w-full items-center justify-center text-[26px] font-semibold text-beamin">
+        Đăng kí
+      </h1>
+      <form className="contents" onSubmit={handleSubmit}>
+        <div className="flex w-full flex-row gap-2">
+          <label className="ds-visually-hidden" htmlFor="register-last-name">
+            Họ
+          </label>
           <Input
-            placeholder="Họ "
+            id="register-last-name"
+            placeholder="Họ"
             className="h-[40px]"
             data-cy="register-last-name"
             onChange={(e) => setLast_Name(e.target.value)}
           />
+          <label className="ds-visually-hidden" htmlFor="register-first-name">
+            Tên
+          </label>
           <Input
+            id="register-first-name"
             placeholder="Tên"
             className="h-[40px]"
             data-cy="register-first-name"
             onChange={(e) => setFirst_Name(e.target.value)}
           />
         </div>
-        <div className="flex flex-col w-full gap-3">
+        <div className="flex w-full flex-col gap-3">
+          <label className="ds-visually-hidden" htmlFor="register-username">
+            Tên đăng nhập
+          </label>
           <Input
+            id="register-username"
             placeholder="Tên đăng nhập"
             className="h-[40px]"
             data-cy="register-username"
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="flex flex-col w-full gap-3">
+        <div className="flex w-full flex-col gap-3">
+          <label className="ds-visually-hidden" htmlFor="register-phone">
+            Số điện thoại
+          </label>
           <Input
+            id="register-phone"
             placeholder="Số điện thoại"
             className="h-[40px]"
             data-cy="register-phone"
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
-        <div className="flex flex-col w-full gap-3">
+        <div className="flex w-full flex-col gap-3">
+          <label className="ds-visually-hidden" htmlFor="register-email">
+            Email
+          </label>
           <Input
+            id="register-email"
             placeholder="Email"
             className="h-[40px]"
             data-cy="register-email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="flex flex-col w-full ">
+        <div className="flex w-full flex-col">
+          <label className="ds-visually-hidden" htmlFor="register-password">
+            Mật khẩu
+          </label>
           <Input.Password
+            id="register-password"
             placeholder="Mật khẩu"
             className="h-[40px]"
             data-cy="register-password"
             iconRender={(visible) =>
-              visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              visible ? <EyeTwoTone aria-hidden="true" /> : <EyeInvisibleOutlined aria-hidden="true" />
             }
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div className="flex flex-col w-full ">
+        <div className="flex w-full flex-col">
+          <label className="ds-visually-hidden" htmlFor="register-confirm-password">
+            Nhập lại mật khẩu
+          </label>
           <Input.Password
+            id="register-confirm-password"
             placeholder="Nhập lại mật khẩu"
             className="h-[40px]"
             data-cy="register-confirm-password"
             iconRender={(visible) =>
-              visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              visible ? <EyeTwoTone aria-hidden="true" /> : <EyeInvisibleOutlined aria-hidden="true" />
             }
             onChange={(e) => setReTypePassword(e.target.value)}
           />
@@ -123,25 +160,25 @@ const Page: React.FC = () => {
             {error}
           </div>
         )}
-        <div className="flex flex-col w-full">
+        <div className="flex w-full flex-col">
           <button
-            className="w-full h-[40px] uppercase text-white bg-beamin rounded-lg"
+            className="h-[40px] w-full rounded-lg bg-beamin uppercase text-white"
             data-cy="register-submit"
             disabled={loading}
-            onClick={handleRegister}
+            type="submit"
           >
-            {loading ? "Dang ki..." : "Đăng Ký"}
+            {loading ? "Đang đăng kí..." : "Đăng ký"}
           </button>
         </div>
-        <div className="flex items-center justify-center gap-1">
-          <span className="text-gray-600">Bạn đã có tài khoản?</span>
-          <Link className="text-beamin cursor-pointer" href={"/login"}>
-            {" "}
-            Đăng nhập
-          </Link>
-        </div>
+      </form>
+      <div className="flex items-center justify-center gap-1">
+        <span className="text-gray-600">Bạn đã có tài khoản?</span>
+        <Link className="cursor-pointer text-beamin" href="/login">
+          Đăng nhập
+        </Link>
       </div>
-    </>
+    </div>
   );
 };
+
 export default Page;

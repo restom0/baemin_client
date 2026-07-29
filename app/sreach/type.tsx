@@ -1,55 +1,48 @@
 'use client';
 
 import { DownOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
+
+const foodTypes = ['Đồ ăn', 'Bánh kem', 'Vỉa hè', 'Tráng miệng', 'Pizza', 'Sushi'];
 
 const TypeSelector = () => {
+  const panelId = useId();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((current) => !current);
   };
 
   return (
     <div className="relative">
-      <div className=' flex flex-col cursor-pointer justify-center items-center mb-1' onClick={toggleDropdown}>
-        <span
-          className=" px-1 rounded uppercase"
-        >
-          Phân loại
+      <button
+        type="button"
+        aria-controls={panelId}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        className="mb-1 flex cursor-pointer flex-col items-center justify-center border-0 bg-transparent"
+        onClick={toggleDropdown}
+      >
+        <span className="rounded px-1 uppercase">Phân loại</span>
+        <span className="text-[10px]">
+          <DownOutlined aria-hidden="true" />
         </span>
-        <div className='text-[10px] '>
-          <DownOutlined />
-        </div>
-      </div>
+      </button>
 
       {isOpen && (
-        <div className="absolute mt-2 w-96 bg-white shadow-lg rounded p-4 z-10">
+        <fieldset
+          id={panelId}
+          className="absolute z-10 mt-2 w-96 rounded border-0 bg-white p-4 shadow-lg"
+        >
+          <legend className="ds-visually-hidden">Chọn phân loại món ăn</legend>
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block">
-                <input type="checkbox" /> Đồ Ăn
+            {foodTypes.map((type) => (
+              <label key={type} className="block">
+                <input type="checkbox" name="food-type" value={type} /> {type}
               </label>
-              <label className="block">
-                <input type="checkbox" /> Bánh Kem
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Vỉa Hè
-              </label>
-            </div>
-            <div>
-              <label className="block">
-                <input type="checkbox" /> Tráng Miệng
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Pizza
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Sushi
-              </label>
-            </div>
+            ))}
           </div>
-        </div>
+        </fieldset>
       )}
     </div>
   );

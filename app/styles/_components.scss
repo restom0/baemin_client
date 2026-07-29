@@ -1,4 +1,106 @@
 @use "./tokens" as *;
+@use "sass:map";
+
+// Design-system variant maps. The `.ds-button--*` and `.ds-badge--*` classes
+// are generated from these with @each loops below, so adding a variant is a
+// one-line map entry rather than a new hand-written rule.
+$button-variants: (
+  "primary": (
+    "background": var(--color-brand),
+    "color": #ffffff,
+    "hover-background": var(--color-brand-strong),
+  ),
+  "secondary": (
+    "background": var(--color-surface),
+    "color": var(--color-foreground),
+    "border": 1px solid var(--color-border),
+    "hover-border-color": var(--color-brand),
+    "hover-color": var(--color-brand-strong),
+  ),
+  "ghost": (
+    "background": transparent,
+    "color": var(--color-muted-foreground),
+    "hover-background": var(--color-muted),
+    "hover-color": var(--color-foreground),
+  ),
+  "danger": (
+    "background": var(--color-danger),
+    "color": #ffffff,
+  ),
+);
+
+$button-sizes: (
+  "sm": (
+    "height": 2rem,
+    "padding-inline": 0.75rem,
+    "font-size": 0.8125rem,
+    "line-height": 1.125rem,
+  ),
+  "md": (
+    "height": 2.5rem,
+    "padding-inline": 1rem,
+    "font-size": 0.875rem,
+    "line-height": 1.25rem,
+  ),
+  "lg": (
+    "height": 3rem,
+    "padding-inline": 1.25rem,
+    "font-size": 1rem,
+    "line-height": 1.5rem,
+  ),
+);
+
+$badge-variants: (
+  "brand": (
+    "background": var(--color-brand-soft),
+    "color": var(--color-brand-strong),
+  ),
+  "success": (
+    "background": rgba(22, 163, 74, 0.12),
+    "color": var(--color-success),
+  ),
+  "warning": (
+    "background": rgba(245, 158, 11, 0.14),
+    "color": var(--color-warning),
+  ),
+  "danger": (
+    "background": rgba(239, 68, 68, 0.12),
+    "color": var(--color-danger),
+  ),
+);
+
+$heading-scales: (
+  "sm": (
+    "font-size": 0.875rem,
+    "line-height": 1.25rem,
+    "font-weight": 600,
+  ),
+  "md": (
+    "font-size": 1.125rem,
+    "line-height": 1.75rem,
+    "font-weight": 600,
+  ),
+  "lg": (
+    "font-size": 1.5rem,
+    "line-height": 2rem,
+    "font-weight": 700,
+  ),
+);
+
+$surface-variants: (
+  "default": (
+    "background": var(--color-surface),
+    "color": var(--color-foreground),
+  ),
+  "soft": (
+    "background": var(--color-surface-soft),
+    "color": var(--color-foreground),
+  ),
+  "brand": (
+    "background": var(--color-brand-soft),
+    "color": var(--color-brand-strong),
+  ),
+);
 
 @layer components {
   .ds-page {
@@ -139,22 +241,13 @@
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   }
 
-  .ds-heading-sm {
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.25rem;
-  }
-
-  .ds-heading-md {
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.75rem;
-  }
-
-  .ds-heading-lg {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 2rem;
+  // Generated from $heading-scales.
+  @each $name, $props in $heading-scales {
+    .ds-heading-#{$name} {
+      font-size: map.get($props, "font-size");
+      font-weight: map.get($props, "font-weight");
+      line-height: map.get($props, "line-height");
+    }
   }
 
   .ds-text-muted {
@@ -198,39 +291,43 @@
     @include focus-ring;
   }
 
-  .ds-button--primary {
-    background: var(--color-brand);
-    color: #ffffff;
+  // Generated from $button-sizes.
+  @each $name, $props in $button-sizes {
+    .ds-button--#{$name} {
+      height: map.get($props, "height");
+      padding-inline: map.get($props, "padding-inline");
+      font-size: map.get($props, "font-size");
+      line-height: map.get($props, "line-height");
+    }
   }
 
-  .ds-button--primary:hover {
-    background: var(--color-brand-strong);
-  }
+  // Generated from $button-variants.
+  @each $name, $props in $button-variants {
+    .ds-button--#{$name} {
+      background: map.get($props, "background");
+      color: map.get($props, "color");
 
-  .ds-button--secondary {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-foreground);
-  }
+      @if map.has-key($props, "border") {
+        border: map.get($props, "border");
+      }
+    }
 
-  .ds-button--secondary:hover {
-    border-color: var(--color-brand);
-    color: var(--color-brand-strong);
-  }
-
-  .ds-button--ghost {
-    background: transparent;
-    color: var(--color-muted-foreground);
-  }
-
-  .ds-button--ghost:hover {
-    background: var(--color-muted);
-    color: var(--color-foreground);
-  }
-
-  .ds-button--danger {
-    background: var(--color-danger);
-    color: #ffffff;
+    @if map.has-key($props, "hover-background") or
+      map.has-key($props, "hover-border-color") or
+      map.has-key($props, "hover-color")
+    {
+      .ds-button--#{$name}:hover {
+        @if map.has-key($props, "hover-background") {
+          background: map.get($props, "hover-background");
+        }
+        @if map.has-key($props, "hover-border-color") {
+          border-color: map.get($props, "hover-border-color");
+        }
+        @if map.has-key($props, "hover-color") {
+          color: map.get($props, "hover-color");
+        }
+      }
+    }
   }
 
   .ds-icon-button {
@@ -318,24 +415,12 @@
     line-height: 1rem;
   }
 
-  .ds-badge--brand {
-    background: var(--color-brand-soft);
-    color: var(--color-brand-strong);
-  }
-
-  .ds-badge--success {
-    background: rgba(22, 163, 74, 0.12);
-    color: var(--color-success);
-  }
-
-  .ds-badge--warning {
-    background: rgba(245, 158, 11, 0.14);
-    color: var(--color-warning);
-  }
-
-  .ds-badge--danger {
-    background: rgba(239, 68, 68, 0.12);
-    color: var(--color-danger);
+  // Generated from $badge-variants.
+  @each $name, $props in $badge-variants {
+    .ds-badge--#{$name} {
+      background: map.get($props, "background");
+      color: map.get($props, "color");
+    }
   }
 
   .ds-table {
@@ -387,5 +472,13 @@
   .ds-price {
     color: var(--color-brand-strong);
     font-weight: 600;
+  }
+
+  // Generated from $surface-variants.
+  @each $name, $props in $surface-variants {
+    .ds-surface--#{$name} {
+      background: map.get($props, "background");
+      color: map.get($props, "color");
+    }
   }
 }

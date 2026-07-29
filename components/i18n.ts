@@ -19,6 +19,7 @@ export const dictionary = {
     theme: 'Giao dien',
     light: 'Sang',
     dark: 'Toi',
+    cart: 'Gio hang',
   },
   fr: {
     home: 'Accueil',
@@ -29,6 +30,7 @@ export const dictionary = {
     theme: 'Theme',
     light: 'Clair',
     dark: 'Sombre',
+    cart: 'Panier',
   },
   ca: {
     home: 'Inici',
@@ -39,6 +41,7 @@ export const dictionary = {
     theme: 'Tema',
     light: 'Clar',
     dark: 'Fosc',
+    cart: 'Cistella',
   },
   es: {
     home: 'Inicio',
@@ -49,6 +52,7 @@ export const dictionary = {
     theme: 'Tema',
     light: 'Claro',
     dark: 'Oscuro',
+    cart: 'Cesta',
   },
   de: {
     home: 'Start',
@@ -59,6 +63,7 @@ export const dictionary = {
     theme: 'Design',
     light: 'Hell',
     dark: 'Dunkel',
+    cart: 'Warenkorb',
   },
   it: {
     home: 'Home',
@@ -69,5 +74,6 @@ export const dictionary = {
     theme: 'Tema',
     light: 'Chiaro',
     dark: 'Scuro',
+    cart: 'Carrello',
   },
 } satisfies Record<Locale, Record<string, string>>;

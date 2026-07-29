@@ -83,9 +83,9 @@ yarn test:e2e
 
 ## Testing
 
-- Unit and component tests use Jest with Testing Library (`yarn test`, `yarn test:cov`).
-- The Jest config enforces a 100% coverage threshold (statements, branches, functions, lines).
-- API-wrapper integration tests in [`apis/__tests__`](apis/__tests__) exercise `apis/fetchApi.tsx` against a mocked `fetch`.
+- Unit, component, and API tests run on Jest with Testing Library (`yarn test`, `yarn test:cov`).
+- The API layer ([`apis/fetchApi.test.ts`](apis/fetchApi.test.ts)) is exercised against mocked `axios`/`fetch`; the preferences provider, i18n dictionary, and shared components have unit/component suites.
+- Coverage is gated at 100% (statements, branches, functions, lines) for the modules listed under `collectCoverageFrom` in [`jest.config.js`](jest.config.js) — currently the API, i18n, preferences, and footer layer. Page-level suites are added incrementally, and the gate scope ratchets up as each one lands.
 - End-to-end flows run through Cypress (`yarn test:e2e`) once the app is serving on port `3000`.
 
 ## CI/CD

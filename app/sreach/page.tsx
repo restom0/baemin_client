@@ -1,119 +1,33 @@
 import React from 'react';
-import TypeSelector from './type';
 import AreaSelector from './area';
 import FilterSelector from './filter';
 import ResultFood from './result';
+import TypeSelector from './type';
+
+const items = Array.from({ length: 13 }, (_, index) => ({
+  id: String(index + 1),
+  name: 'Cơm chiên & nui xào bò - Cống Quỳnh',
+  address: '102/12 Cống Quỳnh, Quận 1, TP. HCM',
+  img: '/food/ga1.jpg',
+  kind: 'Quán ăn',
+}));
 
 const Page: React.FC = () => {
-    const items=[{
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-    {
-        id:'1',
-        name:'Cơm Chiên & Nui Xào Bò - Cống Quỳnh',
-        address:'102/12 Cống Quỳnh, Quận 1, TP. HCM',
-        img:'/food/ga1.jpg',
-        kind:'Quán Ăn',
-    },
-]
-    return (
-        <>
-            <div className='w-full flex flex-row justify-between items-center border-b border-solid'>
-                <div className='flex flex-row gap-3'>
-                    <AreaSelector />
-                    <TypeSelector />
-                </div>
-                <div className='flex items-center justify-center '>
-                    <FilterSelector></FilterSelector>
-                </div>
+  return (
+    <main>
+      <h1 className="ds-visually-hidden">Kết quả tìm kiếm món ăn</h1>
+      <div className="flex w-full flex-row items-center justify-between border-b border-solid">
+        <div className="flex flex-row gap-3" aria-label="Bộ lọc tìm kiếm">
+          <AreaSelector />
+          <TypeSelector />
+        </div>
+        <div className="flex items-center justify-center">
+          <FilterSelector />
+        </div>
+      </div>
+      <ResultFood items={items} />
+    </main>
+  );
+};
 
-            </div>
-            <div className='my-3 flex flex-row'>
-                asdasd
-            </div>
-            <ResultFood items={items} />
-        </>
-    )
-}
 export default Page;

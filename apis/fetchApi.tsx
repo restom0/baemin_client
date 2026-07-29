@@ -3,6 +3,7 @@ import axios from "axios";
 const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 const authHeaders = () => {
+  /* istanbul ignore next -- SSR-only guard, unreachable in the jsdom test env */
   if (typeof window === "undefined") {
     return {};
   }

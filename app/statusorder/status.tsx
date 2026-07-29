@@ -1,56 +1,68 @@
-'use client'
-import { Fragment, useState } from "react"
+'use client';
+
+import { Fragment, useState } from "react";
 
 export default function Status({ items }: { items: any[] }) {
-    const [current,setCurrent]=useState(0)
- const [statusOverrides,setStatusOverrides]=useState<Record<string, boolean>>({})
-const status = items.map(item => ({
+  const [current, setCurrent] = useState(0);
+  const [statusOverrides, setStatusOverrides] = useState<Record<string, boolean>>({});
+  const status = items.map((item) => ({
     ...item,
     st: statusOverrides[item.id] ?? item.st,
-}))
+  }));
 
-const HanlderClick =(id:any)=>{
-    const selectedItem = status.find(item => item.id === id)
+  const handleClick = (id: string) => {
+    const selectedItem = status.find((item) => item.id === id);
 
     if (!selectedItem) {
-        return
+      return;
     }
 
     if (selectedItem.number === current + 1 || selectedItem.number === current) {
-        setCurrent(selectedItem.number)
-        setStatusOverrides(previous => ({
-            ...previous,
-            [id]: !selectedItem.st,
-        }))
+      setCurrent(selectedItem.number);
+      setStatusOverrides((previous) => ({
+        ...previous,
+        [id]: !selectedItem.st,
+      }));
     }
-}
+  };
 
-    return (<>
-        <div className='mt-2 flex flex-col gap-3 relative'>
-            {status.map((item: any, index: any) => (
-                <Fragment key={item.id}><div onClick={()=>HanlderClick(item.id)} className='flex flex-row gap-3 items-center cursor-pointer'>
-                    <div className={`${item.st? "border-beamin":''}  w-10 h-10 rounded-full border border-solid flex justify-center items-center`}>
-                        <span className={`  ${item.st? "text-beamin":'text-gray-600'}     ` }>{item.number}</span>
-                    </div>
-                    <div className={` text-wrap text-[14px] ${item.st? "text-beamin":'text-gray-600'}     ` }>
-                        {item.name}
-                    </div>
-                </div>
-                {status.length - 1 !== index &&
-                <div className='relative flex flex-col left-4 bottom-5 text-xl font-bold gap-1 '>
-                        <span className={` h-2  ${item.st? "text-beamin":'text-gray-600'}     ` }>.</span>
-                        <span className={` h-2 ${item.st? "text-beamin":'text-gray-600'}     ` }>.</span>
-                        <span className={` h-2 ${item.st? "text-beamin":'text-gray-600'}     ` }>.</span>
-                        <span className={` h-2 ${item.st? "text-beamin":'text-gray-600'}     ` }>.</span>
-                        <span className={` h-2 ${item.st? "text-beamin":'text-gray-600'}     ` }>.</span>
-                    </div>
-                    }
-                    </Fragment>
-            ))}
-        </div>
-
-
-    </>)
-
-
+  return (
+    <ol className="relative mt-2 flex flex-col gap-3">
+      {status.map((item: any, index: number) => (
+        <Fragment key={item.id}>
+          <li>
+            <button
+              type="button"
+              onClick={() => handleClick(item.id)}
+              aria-current={item.number === current ? "step" : undefined}
+              aria-pressed={item.st}
+              className="flex cursor-pointer flex-row items-center gap-3 border-0 bg-transparent p-0 text-left"
+            >
+              <span
+                className={`${item.st ? "border-beamin" : ""} flex h-10 w-10 items-center justify-center rounded-full border border-solid`}
+                aria-hidden="true"
+              >
+                <span className={item.st ? "text-beamin" : "text-gray-600"}>{item.number}</span>
+              </span>
+              <span className={`text-wrap text-[14px] ${item.st ? "text-beamin" : "text-gray-600"}`}>
+                {item.name}
+              </span>
+            </button>
+          </li>
+          {status.length - 1 !== index && (
+            <div
+              aria-hidden="true"
+              className="relative bottom-5 left-4 flex flex-col gap-1 text-xl font-bold"
+            >
+              {Array.from({ length: 5 }).map((_, dotIndex) => (
+                <span key={dotIndex} className={`h-2 ${item.st ? "text-beamin" : "text-gray-600"}`}>
+                  .
+                </span>
+              ))}
+            </div>
+          )}
+        </Fragment>
+      ))}
+    </ol>
+  );
 }

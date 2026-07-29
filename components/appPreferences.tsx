@@ -16,6 +16,7 @@ type AppPreferences = {
 const PreferencesContext = createContext<AppPreferences | null>(null);
 
 function getStoredLanguage(): Locale {
+  /* istanbul ignore next -- SSR-only guard, unreachable in the jsdom test env */
   if (typeof window === 'undefined') {
     return 'vi';
   }
@@ -28,6 +29,7 @@ function getStoredLanguage(): Locale {
 }
 
 function getStoredTheme(): Theme {
+  /* istanbul ignore next -- SSR-only guard, unreachable in the jsdom test env */
   if (typeof window === 'undefined') {
     return 'light';
   }

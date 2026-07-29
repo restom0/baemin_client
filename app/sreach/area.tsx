@@ -1,92 +1,66 @@
 'use client';
 
 import { DownOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
+
+const areas = [
+  'Quận 1',
+  'Quận 3',
+  'Quận 6',
+  'Quận 9',
+  'Quận 12',
+  'Phú Nhuận',
+  'Gò Vấp',
+  'Quận 4',
+  'Quận 7',
+  'Quận 10',
+  'Bình Thạnh',
+  'Bình Tân',
+  'Quận 2',
+  'Quận 5',
+  'Quận 8',
+  'Quận 11',
+  'Tân Bình',
+  'Tân Phú',
+];
 
 const AreaSelector = () => {
+  const panelId = useId();
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((current) => !current);
   };
 
   return (
     <div className="relative">
-      <div className=' flex flex-col cursor-pointer justify-center items-center mb-1' onClick={toggleDropdown}>
-        <span
-          className=" px-1 rounded uppercase"
-        >
-          Khu vực
+      <button
+        type="button"
+        aria-controls={panelId}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        className="mb-1 flex cursor-pointer flex-col items-center justify-center border-0 bg-transparent"
+        onClick={toggleDropdown}
+      >
+        <span className="rounded px-1 uppercase">Khu vực</span>
+        <span className="text-[10px]">
+          <DownOutlined aria-hidden="true" />
         </span>
-        <div className='text-[10px] '>
-          <DownOutlined />
-        </div>
-      </div>
+      </button>
       {isOpen && (
-        <div className="absolute mt-2 w-96 bg-white shadow-lg rounded p-4 z-10">
+        <fieldset
+          id={panelId}
+          className="absolute z-10 mt-2 w-96 rounded border-0 bg-white p-4 shadow-lg"
+        >
+          <legend className="ds-visually-hidden">Chọn khu vực giao hàng</legend>
           <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block">
-                <input type="checkbox" /> Quận 1
+            {areas.map((area) => (
+              <label key={area} className="block">
+                <input type="checkbox" name="area" value={area} /> {area}
               </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 3
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 6
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 9
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 12
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Phú Nhuận
-              </label>
-            </div>
-            <div>
-              <label className="block">
-                <input type="checkbox" /> Gò Vấp
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 4
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 7
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 10
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Bình Thạnh
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Bình Tân
-              </label>
-            </div>
-            <div>
-              <label className="block">
-                <input type="checkbox" /> Quận 2
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 5
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 8
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Quận 11
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Tân Bình
-              </label>
-              <label className="block">
-                <input type="checkbox" /> Tân Phú
-              </label>
-            </div>
+            ))}
           </div>
-        </div>
+        </fieldset>
       )}
     </div>
   );
